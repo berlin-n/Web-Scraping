@@ -8,9 +8,10 @@ headers = {
 
 html_text = requests.get('https://finance.yahoo.com/markets/crypto/gainers/', headers).text
 soup = BeautifulSoup(html_text, 'lxml')
-token = soup.find('tr', class_="row false yf-paf8n5")
-name = token.find('div', class_='yf-eg2gbv').text
-symbol = token.find('span', class_='symbol yf-1m808gl').text
-marketCap = token.find('fin-streamer', {'data-field': 'marketCap'}).text
-percentageChange = token.find('fin-streamer', {'data-field': 'regularMarketChangePercent'}).text
-print(f'{name}({symbol}) current Market Cap is {marketCap} and rose by {percentageChange}')
+tokens  = soup.find_all('tr', class_="row false yf-paf8n5")
+for index, token in enumerate(tokens):
+    name = token.find('div', class_='yf-eg2gbv').text
+    symbol = token.find('span', class_='symbol yf-1m808gl').text
+    marketCap = token.find('fin-streamer', {'data-field': 'marketCap'}).text
+    percentageChange = token.find('fin-streamer', {'data-field': 'regularMarketChangePercent'}).text
+    print(f'{name},({symbol}) current Market Cap is {marketCap} and rose by {percentageChange}')
